@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>大学牲人格测试 · 期末/暑期版 | 高顿留学</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(160deg, #FEF4E4 0%, #FCE9D2 100%);
+            font-family: 'Segoe UI', 'Poppins', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 16px;
+        }
+        .test-container {
+            max-width: 800px;
+            width: 100%;
+            background: #FFFFFF;
+            border-radius: 48px;
+            box-shadow: 0 28px 60px -16px rgba(0,0,0,0.25), inset 0 2px 0 rgba(255,255,255,0.8);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .start-screen, .screen {
+            padding: 48px 32px 52px;
+        }
+        .icon-area {
+            text-align: center;
+            font-size: 72px;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%,100%{ transform: translateY(0); }
+            50%{ transform: translateY(-8px); }
+        }
+        .sub-badge {
+            background: #FFF0D4;
+            color: #C7762E;
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1E3A5F, #5D7A9A);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 16px 0 12px;
+            line-height: 1.2;
+            text-align: center;
+        }
+        .desc-card {
+            background: #FEF9F0;
+            border-radius: 32px;
+            padding: 22px 24px;
+            margin: 24px 0 30px;
+            font-size: 16px;
+            color: #4E4538;
+            line-height: 1.7;
+            border-left: 6px solid #F5B342;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+        .btn-start {
+            background: linear-gradient(105deg, #DE8B2F 0%, #F5B342 100%);
+            color: white;
+            font-size: 20px;
+            font-weight: 800;
+            padding: 16px 36px;
+            border: none;
+            border-radius: 80px;
+            cursor: pointer;
+            box-shadow: 0 10px 18px -6px rgba(222,139,47,0.4);
+            transition: transform 0.12s;
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+        .btn-start:active {
+            transform: scale(0.96);
+        }
+        .progress-bar {
+            background: #EADCC8;
+            border-radius: 20px;
+            height: 10px;
+            margin: 8px 0 24px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: #F5B342;
+            width: 0%;
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.4s;
+        }
+        .q-counter {
+            font-size: 15px;
+            color: #A59078;
+            font-weight: 600;
+            text-align: right;
+            margin-bottom: 8px;
+        }
+        .question-text {
+            font-size: 26px;
+            font-weight: 800;
+            color: #2E3949;
+            margin-bottom: 36px;
+            line-height: 1.4;
+        }
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-bottom: 40px;
+        }
+        .option-btn {
+            background: #FEFAF3;
+            border: 2px solid #EDDFCF;
+            border-radius: 100px;
+            padding: 18px 28px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #3B4A5C;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .option-btn.selected-opt {
+            background: #FFF1D5;
+            border-color: #DE8B2F;
+            box-shadow: 0 6px 16px rgba(222,139,47,0.2);
+            color: #A04B1C;
+        }
+        .btn-next {
+            background: #2A4055;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 18px;
+            border-radius: 80px;
+            font-size: 19px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-next:active {
+            background: #1D2F40;
+            transform: scale(0.98);
+        }
+        .hide {
+            display: none !important;
+        }
+
+        /* 结果页面样式 */
+        .result-grid {
+            padding: 10px 16px 28px;
+        }
+        .persona-spotlight {
+            text-align: center;
+            padding: 28px 16px 24px;
+            background: linear-gradient(180deg, #FFF7E0 0%, #FFFBF5 100%);
+            border-radius: 36px;
+            margin: 10px 0 24px;
+            position: relative;
+        }
+        .big-emoji {
+            font-size: 80px;
+            margin-bottom: 10px;
+        }
+        .persona-label {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #DE4D22, #E6832C);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 12px 0 8px;
+        }
+        .mbti-tag {
+            background: #EAE1D1;
+            font-family: monospace;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            padding: 6px 24px;
+            border-radius: 60px;
+            display: inline-block;
+            margin: 10px 0;
+            color: #4A3D2E;
+        }
+        .sub-line {
+            font-size: 16px;
+            color: #846F57;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .action-pack {
+            background: #FDF4E6;
+            border-radius: 28px;
+            padding: 18px 22px;
+            margin: 18px 0;
+            border: 1px solid #F1D5A8;
+        }
+        .pack-title {
+            font-weight: bold;
+            color: #B1591B;
+            font-size: 18px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .add-wechat-block {
+            background: #FFFAEE;
+            border: 2px dashed #F5B342;
+            border-radius: 28px;
+            padding: 22px 18px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .wechat-id {
+            background: #FFFFFF;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 28px;
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+        .copy-wechat-btn {
+            background: #F5B342;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .share-row {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            margin: 18px 0;
+        }
+        .share-btn {
+            background: #F2E6D9;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .restart-link {
+            text-align: center;
+            margin: 20px 0 10px;
+        }
+        .restart-link button {
+            background: none;
+            border: 2px solid #DE8B2F;
+            padding: 10px 30px;
+            border-radius: 80px;
+            font-weight: 700;
+            color: #DE8B2F;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        @media (max-width: 500px) {
+            .start-screen, .screen {
+                padding: 36px 20px 40px;
+            }
+            .question-text {
+                font-size: 22px;
+            }
+            .option-btn {
+                padding: 16px 20px;
+                font-size: 16px;
+            }
+            .persona-label {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="test-container" id="app">
+    <!-- 开始页面 -->
+    <div id="startScreen" class="start-screen">
+        <div class="icon-area">🐶📚</div>
+        <div style="text-align:center;"><span class="sub-badge">期末/暑期限定 · 大学牲人格鉴定</span></div>
+        <h1>🔍 测测你的大学牲人格是什么？</h1>
+        <div class="desc-card">
+            🌞 暑假到底怎么过？旅行？搞钱？还是躺平？<br>
+            ✍️ 5道题测出你的校园求生人格<br>
+            🎁 分享结果进群领「对应人设暑假行动包」<br>
+            ☕ 还有奶茶券抽奖 & 雅思/简历干货
+        </div>
+        <button class="btn-start" id="startBtn">⚡ 开始测试（约30秒）</button>
+        <div style="text-align:center; margin-top:24px; font-size:13px; color:#B6A088;">🎓 粤港澳大学生专属 | 高顿留学·紫藤雅思</div>
+    </div>
+
+    <!-- 答题界面 -->
+    <div id="quizScreen" class="screen hide">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="q-counter" id="qCount">第 1 / 5 题</div>
+        <div class="question-text" id="questionText"></div>
+        <div class="options-grid" id="optionsContainer"></div>
+        <button class="btn-next" id="nextBtn">下一题 →</button>
+    </div>
+
+    <!-- 结果界面动态填充 -->
+    <div id="resultScreen" class="hide"></div>
+</div>
+
+<script>
+    // 5题大学牲题库（融合MBTI维度权重）
+    const questions = [
+        {
+            text: "😴 期末结束，暑假第一件事你想？",
+            options: ["立刻约朋友通宵庆祝", "独自宅家恢复能量", "规划假期行程表", "随便，先睡个三天三夜"],
+            weights: [ {E:1}, {I:1}, {J:1}, {P:1} ]
+        },
+        {
+            text: "💼 刷朋友圈看到别人都在实习，你？",
+            options: ["焦虑，马上改简历投递", "无感，我有自己的节奏", "有点羡慕，但不确定要不要卷", "嘴上说无所谓，默默搜招聘"],
+            weights: [ {T:1,J:1}, {I:1,F:0.8}, {F:1,P:0.8}, {S:1,J:0.7} ]
+        },
+        {
+            text: "🌍 如果有一笔旅行基金，你会？",
+            options: ["拉朋友组队，热闹出行", "独自背包去小众目的地", "详细攻略+预算表安排妥当", "不做计划，到哪算哪"],
+            weights: [ {E:1}, {I:1,N:0.8}, {S:1,J:1}, {P:1,N:0.7} ]
+        },
+        {
+            text: "📖 暑假自我提升，你更倾向于？",
+            options: ["报班/打卡，系统学习", "看心情，想学什么就学什么", "拉小伙伴互相监督", "以赛促学，参加竞赛/项目"],
+            weights: [ {J:1,T:0.8}, {P:1,N:1}, {E:1,F:0.7}, {T:1,S:0.6} ]
+        },
+        {
+            text: "🏷️ 你觉得自己的校园生存哲学是？",
+            options: ["卷就卷到顶尖", "佛系但别挂科", "平衡学业与生活", "在DDL中爆发潜力"],
+            weights: [ {T:1,J:1}, {F:1,P:0.8}, {E:1,S:1}, {N:1,P:1} ]
+        }
+    ];
+
+    // 大学牲人格库（15种，覆盖常见MBTI组合，用幽默标签）
+    const personaMap = {
+        "INTJ": { label: "卷王の战略核武", emoji: "🧠", desc: "理性独裁者，暑假也排满to-do list。", pack: "科研方法论+雅思7分计划表", slogan: "卷王之魂觉醒者" },
+        "INTP": { label: "思维漫游咸鱼王", emoji: "🧩", desc: "脑子停不下来，但身体纹丝不动。", pack: "深度学术资源包+简历逻辑表达", slogan: "嘴上躺平脑子超速" },
+        "ENTJ": { label: "校园CEO本E", emoji: "👑", desc: "暑假也要当队长，带团队拿大厂offer。", pack: "大厂面经合集+领导力书单", slogan: "卷王之魂觉醒者" },
+        "ENTP": { label: "抬杠大赛冠军", emoji: "🎭", desc: "享受辩论，暑假计划改了八百版。", pack: "即兴演讲素材+创新项目灵感", slogan: "鬼点子比头发还多" },
+        "INFJ": { label: "理想主义疗愈师", emoji: "⚓️", desc: "想改变世界，暑假先做义工。", pack: "公益项目推荐+情感写作模板", slogan: "温柔的野心家" },
+        "INFP": { label: "白日梦造梦家", emoji: "🧚", desc: "幻想赚钱但不想动，艺术灵感满格。", pack: "创意变现指南+自由职业扫盲", slogan: "嘴上躺平身体很诚实" },
+        "ENFJ": { label: "社交太阳花", emoji: "🌟", desc: "暑假组局达人，关系网扩张中。", pack: "社交链接指南+留学人脉搭建", slogan: "人均好朋友" },
+        "ENFP": { label: "快乐修勾冒险家", emoji: "🐶", desc: "暑假一定要有新体验，不然会枯萎。", pack: "义工旅行清单+脑洞写作工坊", slogan: "热闹是TA的氧气" },
+        "ISTJ": { label: "秩序守卫者", emoji: "📚", desc: "暑假计划精确到小时，不完成不睡觉。", pack: "自律打卡表+Excel学习模板", slogan: "卷王之魂觉醒者" },
+        "ISFJ": { label: "田螺姑娘/管家", emoji: "🕊️", desc: "默默照顾所有人，自己的事最后做。", pack: "时间管理手账+温柔提分攻略", slogan: "佛系但想搞钱型" },
+        "ESTJ": { label: "执行狂魔铁面人", emoji: "🗂️", desc: "效率为王，一个暑假拿下两个证书。", pack: "考证时间轴+高顿课程优惠链接", slogan: "卷王之魂觉醒者" },
+        "ESFJ": { label: "班级大家长", emoji: "💝", desc: "毕业季最忙的人，暑假也操心同学。", pack: "活动策划锦囊+考研互助群", slogan: "后勤部荣誉部长" },
+        "ISTP": { label: "实操暗影忍者", emoji: "🛠️", desc: "说做就做，暑假可能去修了辆车。", pack: "技能速成课+兼职避坑指南", slogan: "低调但超能打" },
+        "ISFP": { label: "浪漫艺术家", emoji: "🎨", desc: "暑假要画画、拍照、做手账，美就够了。", pack: "作品集灵感+小众留学地推荐", slogan: "佛系但想搞钱型" },
+        "ESTP": { label: "校园真人秀主角", emoji: "⚡", desc: "哪里刺激去哪里，暑假必须有故事。", pack: "极限体验记录+短视频运营", slogan: "活在当下体验派" },
+        "ESFP": { label: "派对永动机", emoji: "🎉", desc: "暑假就是移动派对，朋友召唤术MAX。", pack: "聚会游戏库+表演艺术留学", slogan: "气氛组名誉组长" }
+    };
+
+    let scores = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
+    let currentQ = 0;
+    let selectedAnswers = new Array(questions.length).fill(null);
+    let quizActive = false;
+
+    const startDiv = document.getElementById('startScreen');
+    const quizDiv = document.getElementById('quizScreen');
+    const resultDiv = document.getElementById('resultScreen');
+    const startBtn = document.getElementById('startBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function resetTest() {
+        scores = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
+        currentQ = 0;
+        selectedAnswers.fill(null);
+        quizActive = true;
+        renderQuestion();
+    }
+
+    function updateProgress() {
+        const percent = (currentQ / questions.length) * 100;
+        document.getElementById('progressFill').style.width = percent + "%";
+        document.getElementById('qCount').innerText = `第 ${currentQ+1} / ${questions.length} 题`;
+    }
+
+    function applyWeights(selectedIdx, qData) {
+        const rules = qData.weights[selectedIdx];
+        if (!rules) return;
+        for (let [dim, val] of Object.entries(rules)) {
+            if (scores.hasOwnProperty(dim)) scores[dim] += val;
+        }
+    }
+
+    function computeMBTI() {
+        const e_i = (scores.E >= scores.I) ? 'E' : 'I';
+        const s_n = (scores.S >= scores.N) ? 'S' : 'N';
+        const t_f = (scores.T >= scores.F) ? 'T' : 'F';
+        const j_p = (scores.J >= scores.P) ? 'J' : 'P';
+        return `${e_i}${s_n}${t_f}${j_p}`;
+    }
+
+    function showResult() {
+        quizActive = false;
+        const mbti = computeMBTI();
+        const persona = personaMap[mbti] || personaMap["INTJ"];
+        
+        const resultHTML = `
+            <div class="result-grid">
+                <div class="persona-spotlight">
+                    <div class="big-emoji">${persona.emoji}</div>
+                    <div class="persona-label">${persona.label}</div>
+                    <div class="mbti-tag">${mbti}</div>
+                    <div class="sub-line">${persona.desc}</div>
+                    <div style="font-weight:700; font-size:15px; margin-top:8px; color:#B45F1B;">🎯 人格金句：「${persona.slogan}」</div>
+                </div>
+
+                <div class="action-pack">
+                    <div class="pack-title">🎁 你的「暑假行动包」</div>
+                    <div>📦 ${persona.pack}</div>
+                    <div style="margin-top:10px; font-size:14px; color:#936E3B;">🎟️ 进群还可抽：喜茶/奈雪奶茶券 x 20份</div>
+                </div>
+
+                <div class="add-wechat-block">
+                    <div style="font-weight:800; font-size:18px;">📲 截图保存人格 → 添加微信进群领取</div>
+                    <div class="wechat-id">
+                        <span>🐧</span> <strong>pppppeky</strong>
+                        <button class="copy-wechat-btn" id="copyWechatBtn">复制微信号</button>
+                    </div>
+                    <div style="font-size:14px; margin-top:12px; color:#6B5A4A;">
+                        添加请备注 <strong>"大学牲+${persona.label}"</strong><br>
+                        小助手秒拉群，资料包&抽奖等着你
+                    </div>
+                </div>
+
+                <div class="share-row">
+                    <button class="share-btn" id="shareWechatBtn">📸 分享给好友一起测</button>
+                    <button class="share-btn" id="copyResultBtn">📋 复制人格战绩</button>
+                </div>
+
+                <div class="restart-link">
+                    <button id="restartBtn">🔄 再测一次（朋友说我不像这个）</button>
+                </div>
+                <div style="text-align:center; font-size:11px; color:#C0AA8C; margin-top:20px;">高顿留学 · 紫藤雅思 | 粤港澳大学生暑期企划</div>
+            </div>
+        `;
+
+        resultDiv.innerHTML = resultHTML;
+        startDiv.classList.add('hide');
+        quizDiv.classList.add('hide');
+        resultDiv.classList.remove('hide');
+
+        // 绑定交互
+        document.getElementById('copyWechatBtn')?.addEventListener('click', ()=>{
+            copyToClipboard('pppppeky');
+            showToast('✅ 微信号已复制，添加学姐进群领资料！');
+        });
+        document.getElementById('shareWechatBtn')?.addEventListener('click', ()=>{
+            const shareText = `🐶 我的大学牲人格是「${persona.label}」(${mbti})\n📢 「${persona.slogan}」\n📦 对应的暑假行动包：${persona.pack}\n👉 你也来测，截图进群领资料&抽奶茶！`;
+            copyToClipboard(shareText);
+            showToast('✅ 已复制，去朋友圈/微信群分享吧');
+        });
+        document.getElementById('copyResultBtn')?.addEventListener('click', ()=>{
+            const shareText = `🧾【大学牲人格鉴定】${persona.label} (${mbti})\n📌 人格金句：${persona.slogan}\n🎁 暑假行动包：${persona.pack}\n📲 加微信 pppppeky 进群抽奶茶~`;
+            copyToClipboard(shareText);
+            showToast('✅ 人格战绩已复制，可发小红书/朋友圈');
+        });
+        document.getElementById('restartBtn')?.addEventListener('click', ()=>{
+            resultDiv.classList.add('hide');
+            startDiv.classList.remove('hide');
+            scores = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
+            selectedAnswers.fill(null);
+            currentQ = 0;
+            quizActive = false;
+        });
+    }
+
+    function showToast(msg) {
+        const toast = document.createElement('div');
+        toast.innerText = msg;
+        toast.style.position = 'fixed';
+        toast.style.bottom = '30px';
+        toast.style.left = '50%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.backgroundColor = '#2D3B48';
+        toast.style.color = '#FFE7C7';
+        toast.style.padding = '12px 28px';
+        toast.style.borderRadius = '50px';
+        toast.style.fontWeight = 'bold';
+        toast.style.zIndex = '9999';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2200);
+    }
+
+    function copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+        } else {
+            fallbackCopy(text);
+        }
+    }
+    function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+    }
+
+    function renderQuestion() {
+        if (currentQ >= questions.length) {
+            showResult();
+            return;
+        }
+        updateProgress();
+        const q = questions[currentQ];
+        document.getElementById('questionText').innerText = q.text;
+        const container = document.getElementById('optionsContainer');
+        container.innerHTML = '';
+        q.options.forEach((opt, idx) => {
+            const btn = document.createElement('div');
+            btn.className = 'option-btn';
+            if (selectedAnswers[currentQ] === idx) btn.classList.add('selected-opt');
+            btn.innerText = opt;
+            btn.onclick = () => {
+                container.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected-opt'));
+                btn.classList.add('selected-opt');
+                selectedAnswers[currentQ] = idx;
+            };
+            container.appendChild(btn);
+        });
+    }
+
+    function goNext() {
+        if (!quizActive) return;
+        if (selectedAnswers[currentQ] === null) {
+            alert("👀 选一个再走嘛，不然测不准你的大学牲灵魂~");
+            return;
+        }
+        applyWeights(selectedAnswers[currentQ], questions[currentQ]);
+        currentQ++;
+        if (currentQ < questions.length) {
+            renderQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    startBtn.onclick = () => {
+        startDiv.classList.add('hide');
+        quizDiv.classList.remove('hide');
+        resetTest();
+    };
+    nextBtn.onclick = goNext;
+
+    quizDiv.classList.add('hide');
+    resultDiv.classList.add('hide');
+</script>
+
+<!-- 百度统计容器（如不需要可移除） -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?1cf58e811a0cfeef8e9d67f973d1f27f";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+</html>
